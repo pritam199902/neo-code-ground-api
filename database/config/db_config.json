@@ -1,4 +1,4 @@
 {
     "db_url_dev" : "mongodb://127.0.0.1/my_sheet",
-    "db_url_prod" : ""
+    "db_url_prod" : "mongodb+srv://admin:pritam@1999@cluster0.xitfo.mongodb.net/my_sheet?retryWrites=true&w=majority"
 }
