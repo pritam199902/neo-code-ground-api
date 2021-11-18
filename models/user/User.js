@@ -5,15 +5,15 @@ const Schema = mongoose.Schema;
 let User = new Schema({
     first_name: {
         type: String,
-        required
+        required : true
     },
     last_name: {
         type: String,
-        required
+        required : true
     },
     email: {
         type: String,
-        required
+        required: true
     },
     image: {
         type: String,
@@ -21,7 +21,7 @@ let User = new Schema({
     },
     password: {
         type: String,
-        required
+        required: true
     },
     create_on: {
         type: Date,
@@ -31,7 +31,11 @@ let User = new Schema({
         type: Date,
         default: Date.now
     },
+    auth_token : {
+        type : String,
+    }
 
 
 });
+
 module.exports = mongoose.model('User', User);

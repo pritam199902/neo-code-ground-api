@@ -1,77 +1,68 @@
 const express = require("express")
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
+const auth_token = require("./functions/auth_token")
+const auth_middleware = require('./middleware/auth.middleware')
+
+// routers
+const auth_router = require('./routers/auth/auth.router')
+const user_router = require('./routers/user/user.router')
+
+
 
 // define variable
 const PORT = process.env.PORT || 5000
-const connect_db = require('./database/connection/db_connection')
+const connect_db = require('./database/db_connection')
 
 // initiating app
 const app = express()
 
 // Connect DB
-// connect_db()
+connect_db()
 
+// use middleware
 app.use(express.json())
 app.use(cookieParser())
-
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
-
-async function check(req, res, next) {
-    const context = {
-        id: 1,
-        name: "Pritam",
-        age: 22
-    }
-    next(context)
-}
-
-
-app.get("/", check, async (arg, req, res, next) => {
-    console.log("arg: ", arg);
-
-    res.cookie('auth-token-manual', "Cookies-asdkajshdiasdiansijdda98s7d98ans98d7aishdhaisd",
-        {
-            // maxAge: 10000,
-            // You can't access these tokens in the client's javascript
-            httpOnly: true,
-            // Forces to use https in production
-            secure: process.env.NODE_ENV === 'production' ? true : false
-        });
-
+///////////////////////////////////////////
+// API Entry point
+////////////////////////////////////////
+app.get('/', (req, res) => {
     return res.json({
-        message: "API Connected!",
-        data: arg,
-        cookies: req.cookies,
-
+        message: "Api connected! service up and running"
     })
 })
 
-app.get("/", check, async (arg, req, res, next) => {
-    console.log("arg: ", arg);
 
-    //////////////////////////////////////////////////////
-    // This code is for Midleware to pass te next -> 
-    ////////////////////////////////////////////////////
-    res.cookie('auth-token-manual', "Cookies-asdkajshdiasdiansijdda98s7d98ans98d7aishdhaisd",
-        {
-            // maxAge: 10000,
-            httpOnly: true,
-            // Forces to use https in production
-            secure: process.env.NODE_ENV === 'production' ? true : false
-        });
-    ////////////////////////////////////////////////
+/////////////////////////////////////////
+// Router
+///////////////////////////////////////
 
+// Auth router
+app.use('/auth', auth_router)
+app.use('/user', user_router)
+
+
+app.get('/logout', (req, res) => {
+    res.clearCookie("auth-token")
+    return res.json({message : ['logout success']})
+})
+
+
+/////////////////////////////////////
+// Error URL
+///////////////////////////////////
+app.use('*', (req, res) => {
     return res.json({
-        message: "API Connected!",
-        data: arg,
-        cookies: req.cookies,
-
+        error: true,
+        message: "url not found!"
     })
 })
 
-app.listen(5000, () => console.log(`Server running on ${PORT}!`))
+
+
+app.listen(PORT, () => console.log(`Server running on ${PORT}!`))
 
 
