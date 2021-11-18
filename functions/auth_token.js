@@ -23,7 +23,10 @@ const generate_auth_token = async (arg) => {
         return false
     }
 }
+
+
 exports.generate_auth_token = generate_auth_token
+
 
 
 const get_token_from_auth_token = (arg) => {
@@ -33,20 +36,16 @@ const get_token_from_auth_token = (arg) => {
 
 
 exports.verify_auth_token = async (auth_token) => {
-
-
     const secret_key = config.jwt_secret_key
     console.log("decoding token...");
     const token = get_token_from_auth_token(auth_token)
     // console.log("Token : ", token );
     const decoded = jwt.decode(token)
-    console.log("decoded ");
 
     if (decoded && decoded.data) {
         try {
             console.log("verifing token...");
             const verified = jwt.verify(token, secret_key);
-            console.log("verified ");
             return verified
         } catch (e) {
             console.log("error : ", e.message);

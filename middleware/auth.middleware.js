@@ -26,21 +26,28 @@ exports.is_not_authenticated = async (req, res, next) => {
 exports.is_authenticated = async (req, res, next) => {
     console.log("checking authentication...")
     const user_auth_token = req.cookies['auth-token']
-    // console.log("user auth token => ", user_auth_token);
-    const decode = await auth_token.verify_auth_token(user_auth_token)
-    if (decode) {
-        // check is_refresh_token
-        if ( decode.is_refresh_token ){
-            console.log( "last token expired. new token setting... " )
-            res.cookie('auth-token', decode.refresh_token, {
-                maxAge: new Date(Date.now() + 900000),
-                httpOnly: true,
-                // Forces to use https in production
-                secure: process.env.NODE_ENV === 'production' ? true : false
-            });
-            // return next({ user: decode.data })
+    console.log("user auth token => ", user_auth_token);
+
+    if (user_auth_token) {
+        const decode = await auth_token.verify_auth_token(user_auth_token)
+        if (decode) {
+            // check is_refresh_token
+            if (decode.is_refresh_token) {
+                console.log("last token expired. new token setting... ")
+                res.cookie('auth-token', decode.refresh_token, {
+                    maxAge: new Date(Date.now() + 900000),
+                    httpOnly: true,
+                    // Forces to use https in production
+                    secure: process.env.NODE_ENV === 'production' ? true : false
+                });
+                // return next({ user: decode.data })
+            }
+            return next({ user: decode.data })
         }
-        return next({ user: decode.data })
+        return res.status(403).json({
+            error: true,
+            message: 'Authorization fail!'
+        })
     }
     return res.status(403).json({
         error: true,
