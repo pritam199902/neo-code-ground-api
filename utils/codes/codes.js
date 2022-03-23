@@ -23,7 +23,9 @@ const create_code = async ({ user_id }) => {
 
 const update_code = async (args) => {
     try {
-        const data = {}
+        const data = {
+            last_update_on: new Date()
+        }
         if ("title" in args) {
             data.title = args.title
         }
