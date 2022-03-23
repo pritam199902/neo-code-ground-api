@@ -59,7 +59,7 @@ const io = require("socket.io")(server, {
 ////////////////////////////////////////
 app.get('/', (req, res) => {
     return res.json({
-        message: "Api connected! service up and running"
+        message: "Api connected!"
     })
 })
 
