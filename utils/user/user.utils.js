@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const User = require('../../models/user/User')
+const User = require('../../models/User')
 
 
 exports.get_user_by_id = async ({ user_id }) => {

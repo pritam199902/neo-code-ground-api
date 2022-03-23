@@ -46,6 +46,7 @@ exports.verify_auth_token = async (auth_token) => {
         try {
             console.log("verifing token...");
             const verified = jwt.verify(token, secret_key);
+            console.log("token verified");
             return verified
         } catch (e) {
             console.log("error : ", e.message);

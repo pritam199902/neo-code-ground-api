@@ -9,13 +9,13 @@ exports.Get_user_details = async (arg, req, res, next) => {
     if ( user_details ){
         return res.json({
             data : user_details,
-            message: [`successfully fetched user details`]
+            message: `successfully fetched user details`
         })
     }
 
     return res.json({
         error : false,
-        message: [`Fail to fetch user!`]
+        message: `Fail to fetch user!`
     })
 
 

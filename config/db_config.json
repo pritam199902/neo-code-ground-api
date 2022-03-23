@@ -1,4 +1,4 @@
 {
-    "db_url_dev" : "mongodb://127.0.0.1/exam_sheet",
-    "db_url_prod" : "mongodb+srv://admin:pritam@1999@cluster0.xitfo.mongodb.net/my_sheet?retryWrites=true&w=majority"
+    "db_url_dev" : "",
+    "db_url_prod" : "mongodb+srv://admin:admin@cluster0.7lxph.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 }

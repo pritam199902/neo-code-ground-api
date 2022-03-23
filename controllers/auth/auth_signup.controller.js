@@ -1,13 +1,10 @@
 const auth_validator = require('../../utils/validator/auth.validator')
 const auth_util = require('../../utils/auth/auth.utils')
 
-exports.Signup = async (arg, req, res, next) => {
+exports.Signup = async (req, res, next) => {
     // console.log("req body ", req.body);
 
     try {
-
-
-
         const validator_context = await auth_validator.validate_signup_body({ data: req.body })
         // console.log("validator_context ", validator_context);
 
@@ -24,20 +21,19 @@ exports.Signup = async (arg, req, res, next) => {
         if (save_user) {
 
             return res.json({
-                data: save_user,
-                message: [`Hi ${save_user.first_name}, your account is created successfully!`]
+                // data: save_user,
+                message: `Hi ${save_user.first_name}, your account is created successfully!`
             })
         } else {
             return res.json({
                 error: true,
-                message: [`Fail to create your account! Please try again!`]
+                message: `Fail to create your account! Please try again!`
             })
         }
-
     } catch (e) {
         return res.json({
             error: true,
-            message: [`Fail to create your account! Please try again!`]
+            message: `Fail to create your account! Please try again!`
         })
     }
 
