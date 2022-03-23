@@ -5,7 +5,6 @@ const auth_util = require('../../utils/auth/auth.utils')
 
 
 exports.Login = async (req, res, next) => {
-    // console.log("req body ", req.body);
     try {
         // User input validation
         const validator_context = await auth_validator.validate_login_body({ data: req.body })
@@ -45,10 +44,8 @@ exports.Login = async (req, res, next) => {
 
                     return res.json({
                         message: `Welcome ${login_user.name}!`,
-                        token: token
+                        // token: token
                     })
-
-
 
                 } else {
                     return res.json({
